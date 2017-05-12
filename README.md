@@ -1,3 +1,3 @@
 # dash
 
-An open source agency portal to their serviced "products" and the associated clientele. 
+Software for creative organizations or individuals to store informations about their clients and associated properties, including credentials, styles, and other notes.
