@@ -1,13 +1,15 @@
 // A credential is a single piece of authentication
 
-import { Mongo } from 'mongo';
+import { Mongo } from 'meteor/mongo';
 import { Class, Enum } from 'meteor/jagi:astronomy';
+
+import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '../helpers.js';
 
 const Credentials = new Mongo.Collection('credentials');
 
 const CredentialType = Enum.create({
 	name: 'Credential Type',
-	identifiers: {
+	identifiers: [
 		'social',
 		'service',
 		'domain',
@@ -15,7 +17,7 @@ const CredentialType = Enum.create({
 		'database',
 		'cms',
 		'email'
-	}
+	]
 });
 
 const Credential = GenericDashObject.inherit({
@@ -31,3 +33,5 @@ const Credential = GenericDashObject.inherit({
 		credentialType: CredentialType
 	}
 });
+
+export { Credentials, CredentialType, Credential };

@@ -1,7 +1,9 @@
 // A property is a single piece of intellectual property belonging to a single client
 
-import { Mongo } from 'mongo';
+import { Mongo } from 'meteor/mongo';
 import { Class, Enum } from 'meteor/jagi:astronomy';
+
+import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '../helpers.js';
 
 const Properties = new Mongo.Collection('properties');
 
@@ -17,6 +19,13 @@ const PropertyType = Enum.create({
 		video: 20,
 		videoPromotion: 21,
 		videoInstruction: 22
+	}
+});
+
+const PropertyURL = GenericDashObject.inherit({
+	name: 'Property URL',
+	fields: {
+		address: String
 	}
 });
 
@@ -82,7 +91,7 @@ const Property = GenericDashObject.inherit({
 		uniquePhysicalAddresses: [PhysicalAddress],
 		uniqueEmailAddresses: [EmailAddress],
 		uniquePhoneNumbers: [PhoneNumber],
-		serviceIds: [Mongo.ObjectId],
+		serviceIds: [Mongo.ObjectID],
 		status: {
 			type: PropertyStatus,
 			default: PropertyStatus.acive
@@ -120,3 +129,5 @@ const Property = GenericDashObject.inherit({
 		}
 	}
 });
+
+export { Properties, PropertyType, PropertyStatus, StyleColor, StyleFont, StyleTypeface, PropertyStyle, Property };
