@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { Navigation } from '/imports/ui/components/navigation.jsx';
+import '/imports/startup/client';
 
-export default class App extends Component {
-	render() {
-		return (
-			<div className="container">
-				<h1>Hello, world!</h1>
-			</div>
-		);
-	}
-}
+export const App = ({children}) => (
+	<div>
+		<Navigation />
+		{ children }
+	</div>
+)

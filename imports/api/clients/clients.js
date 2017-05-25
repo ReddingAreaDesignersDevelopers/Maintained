@@ -2,7 +2,7 @@
 
 import { Mongo } from 'meteor/mongo';
 import { Class, Enum } from 'meteor/jagi:astronomy';
-import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '../helpers.js';
+import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '/imports/api/helpers.js';
 
 const Clients = new Mongo.Collection('clients');
 
@@ -10,6 +10,9 @@ const Client = GenericDashObject.inherit({
 	name: 'Client',
 	collection: Clients,
 	fields: {
+		name: {
+			type: String
+		},
 		credentialIds: {
 			type: [Mongo.ObjectID],
 			default: () => []
@@ -29,6 +32,13 @@ const Client = GenericDashObject.inherit({
 		referral: {
 			type: String,
 			default: ''
+		},
+		url: {
+			type: String,
+			transient: true,
+			resolve (doc) {
+				return `/clients/${doc._id}`;
+			}
 		}
 	},
 	helpers: {

@@ -25,6 +25,6 @@ momentjs:moment
 cfs:standard-packages
 cfs:filesystem
 cfs:graphicsmagick
-kadira:flow-router
-arillo:flow-router-helpers
 kadira:dochead
+themeteorchef:bert
+accounts-password

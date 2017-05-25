@@ -12,7 +12,10 @@ const GenericDashObject = Class.create({
 	name: 'Generic Dash Object',
 	typeField: 'type',
 	fields: {
-		notes: [Note],
+		notes: {
+			type: [Note],
+			default: () => []
+		},
 		createdAt: {
 			type: Date,
 			immutable: true
