@@ -1,18 +1,15 @@
 import { Meteor } from 'meteor/meteor';
-import { Bert } from 'meteor/themeteorchef:bert';
 import 'jquery-validation';
+import { handleError } from '/imports/ui/helpers';
 
 const login = component => {
 	const email = document.querySelector('[name=email]').value;
 	const password = document.querySelector('[name=password]').value;
 
 	Meteor.loginWithPassword(email, password, error => {
-		if(error) {
-			console.error(error);
-			Bert.alert(error.reason, 'warning');
-		} else {
+		handleError(error).then(() => {
 			component.props.history.push('/');
-		}
+		});
 	});
 }
 

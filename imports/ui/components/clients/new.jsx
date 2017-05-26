@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Client, Clients } from '/imports/api/clients/clients';
+import { Client } from '/imports/api/clients';
+import { handleError } from '/imports/ui/helpers';
 
 class ClientNew extends React.Component {
 	render () {
@@ -13,15 +14,9 @@ class ClientNew extends React.Component {
 					name: $(event.target).find('[name=name]').val()
 				});
 				Meteor.call('/clients/save', client, (error, clientId) => {
-					if(error) {
-						console.error(error);
-						Bert.alert({
-							title: error.message,
-							type: 'danger'
-						});
-					} else {
+					handleError(error).then(() => {
 						this.props.history.push(`/clients/${clientId}`);
-					}
+					});
 				});
 			}}>
 			<input type="text" name="name" placeholder="Client Name" />

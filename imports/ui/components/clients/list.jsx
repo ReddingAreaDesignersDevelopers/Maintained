@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Client, Clients } from '/imports/api/clients/clients';
+import { Client, Clients } from '/imports/api/clients';
 import container from '/imports/ui/modules/container';
 
 class ClientListItem extends React.Component {

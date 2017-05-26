@@ -1,20 +1,28 @@
 import { Meteor } from 'meteor/meteor';
+import { Client } from '/imports/api/clients';
 
 if(Meteor.isServer) {
 	Meteor.methods({
-		'/clients/list' () {
-			return Client.find();
-		},
 		'/clients/save' (client) {
+			if(typeof client === 'string') client = Client.findOne(client);
 			let result = undefined;
-			client.save((error, id) => {
+			client.save((error, clientId) => {
 				if(error) {
 					throw new Meteor.Error(error);
 				} else {
-					result = id;
+					result = clientId;
 				}
 			});
 			return result;
+		},
+		'/clients/delete' (client) {
+			if(typeof client === 'string') client = Client.findOne(client);
+			client.remove(error => {
+				if(error) {
+					throw new Meteor.Error(error);
+				}
+			});
+			return;
 		}
-	})
+	});
 }

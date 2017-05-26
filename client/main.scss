@@ -1,1 +1,13 @@
-/* CSS declarations go here */
+// CSS declarations go here
+.navigation__main {
+  display: flex;
+  flex-flow: row wrap;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 1rem;
+  }
+
+}

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { User } from '/imports/api/users/users.js';
+import { User } from '/imports/api/users';
 
 if(Meteor.isServer) {
 	Meteor.startup(() => {

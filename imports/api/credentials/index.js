@@ -10,13 +10,14 @@ const Credentials = new Mongo.Collection('credentials');
 const CredentialType = Enum.create({
 	name: 'Credential Type',
 	identifiers: [
-		'social',
-		'service',
-		'domain',
-		'hosting',
-		'database',
-		'cms',
-		'email'
+		'SOCIAL',
+		'SERVICE',
+		'DOMAIN',
+		'HOSTING',
+		'DATABASE',
+		'CMS',
+		'EMAIL',
+		'OTHER'
 	]
 });
 
@@ -30,7 +31,10 @@ const Credential = GenericDashObject.inherit({
 			optional: true
 		},
 		password: String, // Any arbitrary string (PGP, password, &c)
-		credentialType: CredentialType
+		credentialType: {
+			type: CredentialType,
+			default: CredentialType.OTHER
+		}
 	}
 });
 
