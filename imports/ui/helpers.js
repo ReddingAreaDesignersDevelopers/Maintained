@@ -1,5 +1,5 @@
 // Helpers for the user interface
-
+import React from 'react';
 import { Bert } from 'meteor/themeteorchef:bert';
 
 const handleError = error => {
@@ -19,4 +19,12 @@ const handleError = error => {
 
 };
 
-export { handleError };
+const TypeaheadResults = ({ results, onSelect }) => (
+	<ul className="list list--typeahead">
+		{results.map(result => <li key={result._id} onClick={event => {
+			onSelect(event.target.dataset.id);
+		}} data-id={result._id}>{result.name}</li>)}
+	</ul>
+);
+
+export { handleError, TypeaheadResults };

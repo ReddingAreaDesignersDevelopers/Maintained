@@ -10,7 +10,7 @@ const ClientNew = ({ history }) => (
 			const client = new Client({
 				name: $(event.target).find('[name=name]').val()
 			});
-			Meteor.call('/clients/save', client, (error, clientId) => {
+			Meteor.call('/clients/create', client, (error, clientId) => {
 				handleError(error).then(() => {
 					history.push(`/clients/${clientId}`);
 				});

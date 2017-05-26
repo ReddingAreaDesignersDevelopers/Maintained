@@ -3,6 +3,9 @@ import { Class, Enum } from 'meteor/jagi:astronomy';
 
 import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '/imports/api/helpers.js';
 
+import { Client } from '/imports/api/clients';
+import { Credential } from '/imports/api/credentials';
+
 // Create the mongo collection to store properties
 const Properties = new Mongo.Collection('properties');
 
@@ -11,15 +14,15 @@ const Properties = new Mongo.Collection('properties');
 const PropertyType = Enum.create({
 	name: 'Property Type',
 	identifiers: {
-		web: 0,
-		webSite: 1,
-		webApplication: 2,
-		print: 10,
-		printBrochure: 11,
-		printFlyer: 12,
-		video: 20,
-		videoPromotion: 21,
-		videoInstruction: 22
+		WEB: 0,
+		WEB_SITE: 1,
+		WEB_APPLICATION: 2,
+		PRINT: 10,
+		PRINT_BROCHURE: 11,
+		PRINT_FLYER: 12,
+		VIDEO: 20,
+		VIDEO_PROMOTION: 21,
+		VIDEO_INSTRUCTION: 22,
 	}
 });
 
@@ -38,10 +41,10 @@ const PropertyURL = GenericDashObject.inherit({
 const PropertyStatus = Enum.create({
 	name: 'Property Status',
 	identifiers: {
-		pending: 0,
-		active: 10,
-		inactive: 20,
-		archived: 30
+		PENDING: 0,
+		ACTIVE: 10,
+		INACTIVE: 20,
+		ARCHIVED: 30
 	}
 });
 
@@ -80,7 +83,10 @@ const StyleTypeface = GenericDashObject.inherit({
 	name: 'Style Typeface',
 	fields: {
 		name: String,
-		fonts: [StyleFont]
+		fonts: {
+			type: [StyleFont],
+			default: () => []
+		}
 	}
 });
 
@@ -89,8 +95,14 @@ const StyleTypeface = GenericDashObject.inherit({
 const PropertyStyle = Class.create({
 	name: 'Property Style',
 	fields: {
-		colors: [StyleColor],
-		typefaces: [StyleTypeface]
+		colors: {
+			type: [StyleColor],
+			default: () => []
+		},
+		typefaces: {
+			type: [StyleTypeface],
+			default: () => []
+		}
 	}
 });
 
@@ -100,26 +112,63 @@ const Property = GenericDashObject.inherit({
 	collection: Properties,
 	fields: {
 		name: String, // The name of the property
-		propertyType: PropertyType, // The type of property
-		urls: [PropertyURL], // An array of URLs associated with the property
-		clientId: Mongo.ObjectID, // The id client who owns the property
-		uniquePhysicalAddresses: [PhysicalAddress], // An array of physical addresses unique to the property, like the printer's
-		uniqueEmailAddresses: [EmailAddress], // An array of email addresses unique to the property
-		uniquePhoneNumbers: [PhoneNumber], // An array of phone numbers unique to the property
-		serviceIds: [Mongo.ObjectID], // An array of services offered by the agency which the property utilizes
+		propertyType: {
+			type: PropertyType,
+			default: PropertyType.WEB
+		},
+		urls: {
+			type: [PropertyURL],
+			default: () => []
+		},
+		clientId: String, // The id of a client who owns the property
+		credentialIds: {
+			type: [String], // TODO this should be a Mongo.ObjectID but validation isn't working
+			default: () => []
+		},
+		uniquePhysicalAddresses: {
+			 // An array of physical addresses unique to the property, like the printer's
+			type: [PhysicalAddress],
+			default: () => []
+		},
+		uniqueEmailAddresses: {
+			 // An array of email addresses unique to the property
+			type: [EmailAddress],
+			default: () => []
+		},
+		uniquePhoneNumbers: {
+			 // An array of phone numbers unique to the property
+			type: [PhoneNumber],
+			default: () => []
+		},
+		serviceIds: {
+			 // An array of services offered by the agency which the property utilizes
+			type: [String],
+			default: () => []
+		},
 		status: {
 			type: PropertyStatus,
-			default: PropertyStatus.active
+			default: PropertyStatus.ACTIVE
 		},
-		style: PropertyStyle,
-		images: [Object], // An array of images associated with the property
+		style: {
+			type: PropertyStyle,
+			default: () => new PropertyStyle()
+		},
+		images: {
+			 // An array of images associated with the property
+			type: [Object],
+			default: () => []
+		},
 		physicalAddresses: {
 			// A transient property which merges the client's physical addresses with the property's unique ones
 			type: [PhysicalAddress],
 			transient: true,
 			resolve (doc) {
+				let physicalAddresses;
 				const client = Client.findOne({_id: doc.clientId});
-				return _.union(doc.uniquePhysicalAddresses, client.physicalAddresses);
+				if(client) {
+					physicalAddresses = _.union(doc.uniquePhysicalAddresses, client.physicalAddresses);
+				}
+				return physicalAddresses;
 			}
 		},
 		emailAddresses: {
@@ -127,8 +176,12 @@ const Property = GenericDashObject.inherit({
 			type: [EmailAddress],
 			transient: true,
 			resolve (doc) {
+				let emailAddresses;
 				const client = Client.findOne({_id: doc.clientId});
-				return _.union(doc.uniqueEmailAddresses, client.EmailAddresses);
+				if(client) {
+					emailAddresses = _.union(doc.uniqueEmailAddresses, client.EmailAddresses);
+				}
+				return emailAddresses;
 			}
 		},
 		phoneNumbers: {
@@ -136,8 +189,20 @@ const Property = GenericDashObject.inherit({
 			type: [PhoneNumber],
 			transient: true,
 			resolve (doc) {
+				let phoneNumbers;
 				const client = Client.findOne({_id: doc.clientId});
-				return _.union(doc.uniquePhoneNumbers, client.phoneNumbers);
+				if(client) {
+					phoneNumbers = _.union(doc.uniquePhoneNumbers, client.phoneNumbers);
+				}
+				return phoneNumbers;
+			}
+		},
+		url: {
+			// A transient property for the application URL
+			type: String,
+			transient: true,
+			resolve (doc) {
+				return `/properties/${doc._id}`;
 			}
 		}
 	},
@@ -149,6 +214,10 @@ const Property = GenericDashObject.inherit({
 		persons () {
 			// Returns a cursor of persons associated with the property
 			return Person.find({'roles.$.objectId': this._id});
+		},
+		credentials () {
+			// Returns a cursor of credentials attached to the property
+			return Credential.find({_id: {$in: this.credentialIds}});
 		}
 	}
 });

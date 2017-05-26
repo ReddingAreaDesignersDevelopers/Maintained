@@ -12,6 +12,7 @@ const ClientListItem = ({ client }) => (
 const ClientList = () => (
 	<ul>
 		{Client.find().fetch().map(client => <ClientListItem client={client} key={client._id} />)}
+		<li><Link to="/clients/new">New Client</Link></li>
 	</ul>
 )
 

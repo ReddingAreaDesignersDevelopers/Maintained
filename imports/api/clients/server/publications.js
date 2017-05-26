@@ -6,12 +6,29 @@ import { Client } from '/imports/api/clients';
 Meteor.publish('/clients/list', () => Client.find());
 
 // Publishes a single client to the server along with associated documents
-Meteor.publish('/clients/view', clientId => {
-	check(clientId, String);
+Meteor.publish('/clients/view', client => {
+	if(typeof client === 'string') client = Client.findOne(client);
 	const cursors = [];
-	const client = Client.findOne(clientId);
-	cursors.push(Client.find(clientId));
+	cursors.push(Client.find(client._id));
 	cursors.push(client.credentials());
 	cursors.push(client.persons());
+	cursors.push(client.properties());// TODO reduce number of fields
 	return cursors;
 });
+
+Meteor.publish('/clients/search', search => {
+	// Allows searching by client name for use attaching to properties
+	return Client.find({
+		$text: {
+			$search: search,
+			$caseSensitive: false
+		}
+	}, {
+		fields: {
+			score: {$meta: 'textScore'},
+		},
+		sort: {
+			score: {$meta: 'textScore'}
+		}
+	});
+})

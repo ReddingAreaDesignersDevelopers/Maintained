@@ -19,7 +19,7 @@ class Navigation extends React.Component {
 			<ul className="navigation navigation__main">
 				<li><Link to="/">Home</Link></li>
 				<li><Link to="/clients">Clients</Link></li>
-				<li><Link to="/clients/new">New Client</Link></li>
+				<li><Link to="/properties">Properties</Link></li>
 				<li><Link to="/login" onClick={this.logout}>Sign Out</Link></li>
 			</ul>
 		) : null;

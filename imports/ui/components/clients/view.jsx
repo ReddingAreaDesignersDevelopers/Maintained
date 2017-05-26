@@ -1,5 +1,6 @@
 import React from 'react';
 import { Client } from '/imports/api/clients';
+import { Link } from 'react-router-dom';
 import CredentialList from '/imports/ui/components/credentials/list';
 import { PhysicalAddressList } from '/imports/ui/components/helpers/physicalAddress';
 import { EmailAddressList } from '/imports/ui/components/helpers/emailAddress';
@@ -52,6 +53,7 @@ class ClientView extends React.Component {
 						Meteor.call('/clients/save', client, handleError);
 					}}
 				/>
+				<ul>{client.properties().map(property => <li key={property._id}><Link to={property.url}>{property.name}</Link></li>)}</ul>
 				<button onClick={event => {
 					Meteor.call('/clients/delete', client, error => {
 						handleError(error).then(() => {

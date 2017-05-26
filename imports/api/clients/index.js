@@ -5,6 +5,7 @@ import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '/
 
 import { Credential } from '/imports/api/credentials';
 import { Person } from '/imports/api/persons';
+import { Property } from '/imports/api/properties';
 
 // Create the mongo collection of clients
 const Clients = new Mongo.Collection('clients');
@@ -54,6 +55,10 @@ const Client = GenericDashObject.inherit({
 		credentials () {
 			// Returns a cursor of credentials attached to the client
 			return Credential.find({_id: {$in: this.credentialIds}});
+		},
+		properties () {
+			// Returns a cursor of properties owned by the client
+			return Property.find({clientId: this._id});
 		}
 	}
 });

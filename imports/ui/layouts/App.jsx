@@ -10,9 +10,8 @@ import Login from '/imports/ui/pages/Login';
 import Navigation from '/imports/ui/components/Navigation';
 import NotFound from '/imports/ui/pages/NotFound';
 
-import ClientList from '/imports/ui/components/clients/list';
-import ClientNew from '/imports/ui/components/clients/new';
-import ClientView from '/imports/ui/components/clients/view';
+import { ClientList, ClientNew, ClientView } from '/imports/ui/components/clients';
+import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/properties';
 
 const App = appProps => (
 	<Router>
@@ -20,6 +19,9 @@ const App = appProps => (
 			<Navigation {...appProps} />
 			<Switch>
 				<Authenticated exact name="index" path="/" component={Index} />
+				<Authenticated exact name="PropertyList" path="/properties" component={PropertyList} {...appProps} />
+				<Authenticated exact name="PropertyNew" path="/properties/new" component={PropertyNew} {...appProps} />
+				<Authenticated exact name="PropertyView" path="/properties/:propertyId" component={PropertyView} {...appProps} />
 				<Authenticated exact name="ClientList" path="/clients" component={ClientList} {...appProps} />
 				<Authenticated exact name="ClientNew" path="/clients/new" component={ClientNew} {...appProps} />
 				<Authenticated exact name="ClientView" path="/clients/:clientId" component={ClientView} {...appProps} />
