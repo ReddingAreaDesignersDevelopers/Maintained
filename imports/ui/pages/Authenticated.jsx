@@ -1,3 +1,4 @@
+// An extension of the React route component for checking that the user is logged in
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';

@@ -1,3 +1,4 @@
+// THe login page. TODO buggy, shows up even when logged in
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Redirect } from 'react-router-dom';

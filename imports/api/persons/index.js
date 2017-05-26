@@ -1,6 +1,3 @@
-// A person is a single real person with whom the agency is associated
-// They may have roles at one or more clients or properties
-
 import { Mongo } from 'meteor/mongo';
 import { Class, Enum } from 'meteor/jagi:astronomy';
 
@@ -8,15 +5,19 @@ import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '/
 
 const Persons = new Mongo.Collection('persons');
 
+// A person may have any number of roles. These are positions for example,
+// at a client organization or with a property
 const PersonRole = GenericDashObject.inherit({
 	name: 'Person Role',
 	fields: {
 		name: String, // The name of their role
 		objectType: String, // The type of object at which they have a role (site or client)
-		objectId: Mongo.ObjectID, // The ID of the object above
+		objectId: String // The ID of the object above
 	}
 });
 
+// A person is a single real person with whom the agency is associated
+// They may have roles at one or more clients or properties
 const Person = GenericDashObject.inherit({
 	name: 'Person',
 	collection: Persons,

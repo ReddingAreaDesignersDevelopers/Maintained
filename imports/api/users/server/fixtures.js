@@ -5,6 +5,7 @@ import { User } from '/imports/api/users';
 if(Meteor.isServer) {
 	Meteor.startup(() => {
 		if(!Meteor.users.find().fetch().length) {
+			// If there are no users, create a default user
 			Accounts.createUser({
 				email: 'admin@dash.local',
 				password: 'password',
