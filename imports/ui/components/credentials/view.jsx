@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { CredentialType } from '/imports/api/credentials';
-import { handleError } from '/imports/ui/helpers';
+import { handleError, Select } from '/imports/ui/helpers';
 
 const credentialTypes = [];
 for(prop in CredentialType) {
@@ -47,7 +47,13 @@ const CredentialView = ({ credential, onDelete }) => (
 		/>
 		<input
 			required
-			type="text"
+			type="password"
+			onMouseEnter={event => {
+				event.target.type = 'text';
+			}}
+			onMouseLeave={event => {
+				event.target.type = 'password';
+			}}
 			name="password"
 			placeholder="secret"
 			defaultValue={credential.password}
@@ -56,21 +62,20 @@ const CredentialView = ({ credential, onDelete }) => (
 				Meteor.call('/credentials/save', credential, handleError);
 			}}
 		/>
-		<select
+		<Select
 			name="credentialType"
-			defaultValue={credential.credentialType}
-			onChange={event => {
-				credential.credentialType = Number(event.target.value);
+			value={credential.credentialType}
+			clearable={false}
+			options={credentialTypes.map(credentialType => Object({
+				value: credentialType.index,
+				label: credentialType.name}
+			))}
+			onChange={selectedOption => {
+				credential.credentialType = Number(selectedOption.value);
 				Meteor.call('/credentials/save', credential, handleError);
 			}}
-			>
-				{credentialTypes.map(credentialType => <option key={credentialType.index} value={credentialType.index}>{credentialType.name}</option>)}
-		</select>
-		<input
-			type="button"
-			value="delete"
-			onClick={event => onDelete(credential._id)}
-		/>
+			/>
+		<button className="remover" onClick={event => onDelete(credential._id)}><i className="mdi mdi-delete"></i></button>
 	</form>
 );
 

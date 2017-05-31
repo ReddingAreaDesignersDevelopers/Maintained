@@ -10,9 +10,9 @@ const ClientListItem = ({ client }) => (
 )
 
 const ClientList = () => (
-	<ul>
+	<ul className="list list__clients">
 		{Client.find().fetch().map(client => <ClientListItem client={client} key={client._id} />)}
-		<li><Link to="/clients/new">New Client</Link></li>
+		<li><Link to="/clients/new"><button className="creater"><i className="mdi mdi-plus"></i><i className="mdi mdi-account"></i></button></Link></li>
 	</ul>
 )
 

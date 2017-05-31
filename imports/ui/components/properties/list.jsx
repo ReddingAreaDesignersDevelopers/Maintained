@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Property } from '/imports/api/properties';
@@ -10,9 +11,9 @@ const PropertyListItem = ({ property }) => (
 );
 
 const PropertyList = ({ properties }) => (
-	<ul>
+	<ul className="list list__properties">
 		{properties.map(property => <PropertyListItem property={property} key={property._id} />)}
-		<li><Link to="/properties/new">New Property</Link></li>
+		<li><Link to="/properties/new"><button className="creater"><i className="mdi mdi-plus"></i><i className="mdi mdi-book"></i></button></Link></li>
 	</ul>
 );
 

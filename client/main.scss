@@ -1,4 +1,34 @@
 // CSS declarations go here
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,700,700i');
+@import '{}/node_modules/mdi/scss/materialdesignicons';
+@import '{}/node_modules/material-colors/dist/colors';
+@import '{}/node_modules/react-select/scss/default';
+
+@import './mixins';
+@import './inputs';
+@import './components/index';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  padding: 0;
+  margin: 0;
+  color: $md-dark-text-primary;
+}
+
+a {
+  color: $md-blue-700;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 100;
+}
+
 .navigation__main {
   display: flex;
   flex-flow: row wrap;

@@ -5,5 +5,6 @@ import App from '/imports/ui/layouts/App';
 
 // First thing on startup is to attach react to the DOM
 Meteor.startup(() => {
+	Meteor.subscribe('/services/list');
 	render(<App />, document.getElementById('react-root'));
 });

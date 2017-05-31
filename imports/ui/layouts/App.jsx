@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { compose } from 'react-komposer';
+import container from '/imports/ui/modules/container';
 
 
 import Index from '/imports/ui/pages/Index';
@@ -12,6 +12,7 @@ import NotFound from '/imports/ui/pages/NotFound';
 
 import { ClientList, ClientNew, ClientView } from '/imports/ui/components/clients';
 import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/properties';
+import { ServiceList, ServiceNew, ServiceView } from '/imports/ui/components/services';
 
 const App = appProps => (
 	<Router>
@@ -25,6 +26,9 @@ const App = appProps => (
 				<Authenticated exact name="ClientList" path="/clients" component={ClientList} {...appProps} />
 				<Authenticated exact name="ClientNew" path="/clients/new" component={ClientNew} {...appProps} />
 				<Authenticated exact name="ClientView" path="/clients/:clientId" component={ClientView} {...appProps} />
+				<Authenticated exact name="ServiceList" path="/services" component={ServiceList} {...appProps} />
+				<Authenticated exact name="ServiceNew" path="/services/new" component={ServiceNew} {...appProps} />
+				<Authenticated exact name="ServiceView" path="/services/:serviceId" component={ServiceView} {...appProps} />
 				<Route path="/login" component={Login} {...appProps} />
 				<Route component={NotFound} />
 			</Switch>
@@ -36,8 +40,6 @@ App.propTypes = {
 	children: PropTypes.node
 };
 
-const composer = (props, onData) => {
-	onData(null, {});
-}
-
-export default compose(composer)(App);
+export default container((props, onData) => {
+	onData(null, {hasUser: Meteor.user()});
+}, App);

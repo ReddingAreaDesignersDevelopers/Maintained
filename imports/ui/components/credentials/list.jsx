@@ -22,7 +22,7 @@ class CredentialList extends React.Component {
 					</li>)}
 				<li>{this.state.isAdding
 						? <CredentialNew onSubmit={credentialId => {this.setState({isAdding: false}); this.props.onAdd(credentialId)}} />
-						: <button onClick={event => this.setState({isAdding: true})}>New Credential</button>
+						: <button className="creater" onClick={event => this.setState({isAdding: true})}><i className="mdi mdi-plus"></i><i className="mdi mdi-key"></i></button>
 				}</li>
 			</ul>
 		);

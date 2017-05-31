@@ -24,10 +24,14 @@ const GenericDashObject = Class.create({
 		},
 		createdAt: {
 			type: Date,
+			default: () => new Date()
 			// immutable: true
 			// Should be immutable, but a bug makes the field disappear
 		},
-		updatedAt: Date
+		updatedAt: {
+			type: Date,
+			default: () => new Date()
+		}
 	},
 	events: {
 		beforeInsert (event) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { PhysicalAddress } from '/imports/api/helpers';
 
 const PhysicalAddressNew = ({ onSubmit }) => (
@@ -25,13 +26,14 @@ const PhysicalAddressNew = ({ onSubmit }) => (
 	</form>
 )
 
-const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate }) => (
+const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate, readonly }) => (
 	<form
 		className="physicalAddress physicalAddress--view"
 		onSubmit={event => event.preventDefault()}
 		>
 		<input
 			required
+			readOnly={readonly ? 'readonly' : null}
 			type="text"
 			name="streetAddress"
 			defaultValue={physicalAddress.streetAddress}
@@ -43,6 +45,7 @@ const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate }) => 
 		/>
 		<input
 			required
+			readOnly={readonly ? 'readonly' : null}
 			type="text"
 			name="addressLocality"
 			defaultValue={physicalAddress.addressLocality}
@@ -54,6 +57,7 @@ const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate }) => 
 		/>
 		<input
 			required
+			readOnly={readonly ? 'readonly' : null}
 			type="text"
 			name="addressRegion"
 			defaultValue={physicalAddress.addressRegion}
@@ -65,6 +69,7 @@ const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate }) => 
 		/>
 		<input
 			required
+			readOnly={readonly ? 'readonly' : null}
 			type="text"
 			name="postalCode"
 			defaultValue={physicalAddress.postalCode}
@@ -74,11 +79,10 @@ const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate }) => 
 				onUpdate(physicalAddress, index);
 			}}
 		/>
-		<input
-			type="button"
-			value="delete"
-			onClick={event => onDelete(index)}
-		/>
+		{readonly
+			? null
+			: <button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
+		}
 	</form>
 )
 
@@ -91,28 +95,41 @@ class PhysicalAddressList extends React.Component {
 	}
 
 	render () {
-		var index = 0;
 		return (
 			<ul className="list list__physicalAddresses">
-				{this.props.physicalAddresses.map(physicalAddress => {
-					let jsx = <li key={index}>
+				{this.props.physicalAddresses.map((physicalAddress, index) => <li key={index}>
 						<PhysicalAddressView
 							physicalAddress={physicalAddress}
 							index={index}
+							readonly={this.props.readonly}
 							onUpdate={(physicalAddress, index) => {physicalAddress.updatedAt = new Date(); this.props.onUpdate(physicalAddress, index)}}
 							onDelete={index => this.props.onDelete(index)}
 						/>
-					</li>;
-					index++;
-					return jsx;
-				})}
-				<li>{this.state.isAdding
-					? <PhysicalAddressNew onSubmit={physicalAddress => {this.setState({isAdding: false}); this.props.onAdd(physicalAddress)}} />
-					: <button onClick={event => this.setState({isAdding: true})}>Add Physical Address</button>
-				}</li>
+					</li>)}
+					{this.props.readonly ? null : <li>{this.state.isAdding
+						? <PhysicalAddressNew onSubmit={physicalAddress => {this.setState({isAdding: false}); this.props.onAdd(physicalAddress)}} />
+						: <button className="creater" onClick={event => this.setState({isAdding: true})}><i className="mdi mdi-plus"></i><i className="mdi mdi-map-marker"></i></button>
+					}</li>}
+
 			</ul>
 		);
 	}
 }
+
+PhysicalAddressList.propTypes = {
+	physicalAddresses: PropTypes.array,
+	readonly: PropTypes.bool,
+	onUpdate: PropTypes.func,
+	onAdd: PropTypes.func,
+	onDelete: PropTypes.func
+};
+
+PhysicalAddressList.defaultProps = {
+	physicalAddresses: [],
+	readonly: false,
+	onUpdate: (physicalAddress, index) => null,
+	onAdd: (physicalAddress) => null,
+	onDelete: (index) => null
+};
 
 export { PhysicalAddressNew, PhysicalAddressView, PhysicalAddressList };

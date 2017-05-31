@@ -1,0 +1,28 @@
+.list__credentials,
+.list__physicalAddresses,
+.list__emailAddresses,
+.list__phoneNumbers,
+.list__colors,
+.list__typefaces,
+.list__fonts,
+.list__properties,
+.list__clients,
+.list__client-properties,
+.list__services {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+
+.list__clients,
+.list__properties {
+  padding: 0 1rem;
+  li {
+    height: 2rem;
+    padding: 0.5rem 0;
+  }
+  a {
+    text-decoration: none;
+  }
+}

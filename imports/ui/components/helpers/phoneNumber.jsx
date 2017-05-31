@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { PhoneNumber } from '/imports/api/helpers';
 
 const PhoneNumberNew = ({ onSubmit }) => (
@@ -18,13 +19,14 @@ const PhoneNumberNew = ({ onSubmit }) => (
 	</form>
 )
 
-const PhoneNumberView = ({ phoneNumber, index, onDelete, onUpdate }) => (
+const PhoneNumberView = ({ phoneNumber, index, onDelete, onUpdate, readonly }) => (
 	<form
 		className="phoneNumber phoneNumber--view"
 		onSubmit={event => event.preventDefault()}
 		>
 		<input
 			required
+			readOnly={readonly ? 'readonly' : null}
 			type="tel"
 			name="tel"
 			defaultValue={phoneNumber.tel}
@@ -34,11 +36,10 @@ const PhoneNumberView = ({ phoneNumber, index, onDelete, onUpdate }) => (
 				onUpdate(phoneNumber, index);
 			}}
 		/>
-		<input
-			type="button"
-			value="delete"
-			onClick={event => onDelete(index)}
-		/>
+		{readonly
+			? null
+			: <button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
+		}
 	</form>
 )
 
@@ -51,28 +52,42 @@ class PhoneNumberList extends React.Component {
 	}
 
 	render() {
-		var index = 0;
 		return (
 			<ul className="list list__phoneNumbers">
-				{this.props.phoneNumbers.map(phoneNumber => {
-					let jsx = <li key={index}>
+				{this.props.phoneNumbers.map(
+					(phoneNumber, index) => <li key={index}>
 						<PhoneNumberView
 							phoneNumber={phoneNumber}
+							readonly={this.props.readonly}
 							index={index}
 							onUpdate={(phoneNumber, index) => {phoneNumber.updatedAt = new Date(); this.props.onUpdate(phoneNumber, index)}}
 							onDelete={index => this.props.onDelete(index)}
 						/>
-					</li>;
-					index++;
-					return jsx;
-				})}
-				<li>{this.state.isAdding
+					</li>
+				)}
+				{this.props.readonly ? null : <li>{this.state.isAdding
 					? <PhoneNumberNew onSubmit={phoneNumber => {this.setState({isAdding: false}); this.props.onAdd(phoneNumber)}} />
-					: <button onClick={event => this.setState({isAdding: true})}>Add Phone Number</button>
-				}</li>
+					: <button className="creater" onClick={event => this.setState({isAdding: true})}><i className="mdi mdi-plus"></i><i className="mdi mdi-phone"></i></button>
+				}</li>}
 			</ul>
 		);
 	}
 }
+
+PhoneNumberList.propTypes = {
+	phoneNumbers: PropTypes.array,
+	readonly: PropTypes.bool,
+	onUpdate: PropTypes.func,
+	onAdd: PropTypes.func,
+	onDelete: PropTypes.func
+};
+
+PhoneNumberList.defaultProps = {
+	phoneNumbers: [],
+	readonly: false,
+	onUpdate: (phoneNumber, index) => null,
+	onAdd: (phoneNumber) => null,
+	onDelete: (index) => null
+};
 
 export { PhoneNumberNew, PhoneNumberView, PhoneNumberList };
