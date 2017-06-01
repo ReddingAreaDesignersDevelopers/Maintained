@@ -24,29 +24,30 @@ const EmailAddressNew = ({ onSubmit }) => (
 	</form>
 )
 
-const EmailAddressView = ({ emailAddress, index, onDelete, onUpdate, readonly }) => (
-	<form
-		className="emailAddress emailAddress--view"
-		onSubmit={event => event.preventDefault()}
-		>
-		<input
-			required
-			readOnly={readonly ? 'readonly' : null}
-			type="email"
-			name="address"
-			defaultValue={emailAddress.address}
-			placeholder="Email Address"
-			onChange={event => {
-				emailAddress.address = event.target.value;
-				onUpdate(emailAddress, index);
-			}}
-		/>
-		{readonly
-			? null
-			: <button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
-		}
-	</form>
-)
+const EmailAddressView = ({ emailAddress, index, onDelete, onUpdate, readonly }) =>
+	readonly
+	? <div className="emailAddress emailAddress--view">
+		<i className="mdi mdi-email"></i>
+		<span name="address"><a href={`mailto:${emailAddress.address}`}>{emailAddress.address}</a></span>
+	</div>
+	: <form
+			className="emailAddress emailAddress--view"
+			onSubmit={event => event.preventDefault()}
+			>
+			<input
+				required
+				type="email"
+				name="address"
+				defaultValue={emailAddress.address}
+				placeholder="Email Address"
+				onClick={event => event.target.select()}
+				onChange={event => {
+					emailAddress.address = event.target.value;
+					onUpdate(emailAddress, index);
+				}}
+			/>
+			<button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
+		</form>
 
 class EmailAddressList extends React.Component {
 	constructor (props) {
@@ -58,7 +59,7 @@ class EmailAddressList extends React.Component {
 
 	render() {
 		return (
-			<ul className="list list__emailAddresses">
+			<ul className={`list list__emailAddresses${this.props.readonly ? ' readonly' : ''}`}>
 				{this.props.emailAddresses.map(
 					(emailAddress, index) => <li key={index}>
 						<EmailAddressView

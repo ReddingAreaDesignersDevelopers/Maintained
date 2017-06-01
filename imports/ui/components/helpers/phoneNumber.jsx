@@ -19,29 +19,31 @@ const PhoneNumberNew = ({ onSubmit }) => (
 	</form>
 )
 
-const PhoneNumberView = ({ phoneNumber, index, onDelete, onUpdate, readonly }) => (
-	<form
-		className="phoneNumber phoneNumber--view"
-		onSubmit={event => event.preventDefault()}
-		>
-		<input
-			required
-			readOnly={readonly ? 'readonly' : null}
-			type="tel"
-			name="tel"
-			defaultValue={phoneNumber.tel}
-			placeholder="Phone Number"
-			onChange={event => {
-				phoneNumber.tel = event.target.value;
-				onUpdate(phoneNumber, index);
-			}}
-		/>
-		{readonly
-			? null
-			: <button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
-		}
-	</form>
-)
+const PhoneNumberView = ({ phoneNumber, index, onDelete, onUpdate, readonly }) =>
+	readonly
+		? <div className="phoneNumber phoneNumber--view">
+			<i className="mdi mdi-phone"></i>
+			<span name="tel"><a href={`tel:${phoneNumber.formatted}`}>{phoneNumber.tel}</a></span>
+		</div>
+		: <form
+			className="phoneNumber phoneNumber--view"
+			onSubmit={event => event.preventDefault()}
+			>
+			<input
+				required
+				type="tel"
+				name="tel"
+				defaultValue={phoneNumber.tel}
+				placeholder="Phone Number"
+				onClick={event => event.target.select()}
+				onChange={event => {
+					phoneNumber.tel = event.target.value;
+					onUpdate(phoneNumber, index);
+				}}
+			/>
+			<button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
+		</form>
+
 
 class PhoneNumberList extends React.Component {
 	constructor (props) {
@@ -53,7 +55,7 @@ class PhoneNumberList extends React.Component {
 
 	render() {
 		return (
-			<ul className="list list__phoneNumbers">
+			<ul className={`list list__phoneNumbers${this.props.readonly ? ' readonly' : ''}`}>
 				{this.props.phoneNumbers.map(
 					(phoneNumber, index) => <li key={index}>
 						<PhoneNumberView

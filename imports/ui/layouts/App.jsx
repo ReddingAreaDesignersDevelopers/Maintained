@@ -9,10 +9,12 @@ import Authenticated from '/imports/ui/pages/Authenticated';
 import Login from '/imports/ui/pages/Login';
 import Navigation from '/imports/ui/components/Navigation';
 import NotFound from '/imports/ui/pages/NotFound';
+import FirstTimeKey from '/imports/ui/pages/FirstTimeKey';
 
 import { ClientList, ClientNew, ClientView } from '/imports/ui/components/clients';
 import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/properties';
 import { ServiceList, ServiceNew, ServiceView } from '/imports/ui/components/services';
+import { PersonView } from '/imports/ui/components/persons';
 
 const App = appProps => (
 	<Router>
@@ -29,6 +31,8 @@ const App = appProps => (
 				<Authenticated exact name="ServiceList" path="/services" component={ServiceList} {...appProps} />
 				<Authenticated exact name="ServiceNew" path="/services/new" component={ServiceNew} {...appProps} />
 				<Authenticated exact name="ServiceView" path="/services/:serviceId" component={ServiceView} {...appProps} />
+				<Authenticated exact name="PersonView" path="/persons/:personId" component={PersonView} {...appProps} />
+				<Route exact path="/firstTimeKey" component={FirstTimeKey} />
 				<Route path="/login" component={Login} {...appProps} />
 				<Route component={NotFound} />
 			</Switch>

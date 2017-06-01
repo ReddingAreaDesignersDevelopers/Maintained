@@ -7,3 +7,5 @@ import '/imports/api/properties/methods.js';
 import '/imports/api/properties/server/publications.js';
 import '/imports/api/services/methods.js';
 import '/imports/api/services/server/publications.js';
+import '/imports/api/persons/methods.js';
+import '/imports/api/persons/server/publications.js';

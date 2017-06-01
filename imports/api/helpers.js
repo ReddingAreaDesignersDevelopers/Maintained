@@ -100,9 +100,125 @@ const EmailAddress = GenericDashObject.inherit({
 const PhoneNumber = GenericDashObject.inherit({
 	name: 'Phone Number',
 	fields: {
-		tel: String // The string of numbers constituting the phone number
+		tel: String, // The string of numbers constituting the phone number
+		formatted: {
+			// A helper that strips all non-digits
+			type: String,
+			transient: true,
+			resolve: doc => {
+				return doc.tel.replace(/\D/g, "");
+			}
+		}
 	}
 });
 
+const extendWithPhysicalAddresses = classToExtend => {
+	classToExtend.extend({
+		fields: {
+			uniquePhysicalAddresses: {
+				type: [PhysicalAddress],
+				default: () => []
+			}
+		}
+	});
+	if(Meteor.isServer) {
+		classToExtend.extend({
+			meteorMethods: {
+				addPhysicalAddress (physicalAddress) {
+					this.uniquePhysicalAddresses.push(physicalAddress);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+				updatePhysicalAddress (physicalAddress, index) {
+					this.uniquePhysicalAddresses[index] = physicalAddress;
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+	 			removePhysicalAddress (physicalAddressIndex) {
+					// Removes a phone number from the client object via its index
+					this.uniquePhysicalAddresses.splice(physicalAddressIndex, 1);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				}
+			}
+		})
+	}
+}
 
-export { Note, GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber };
+const extendWithEmailAddresses = classToExtend => {
+	classToExtend.extend({
+		fields: {
+			uniqueEmailAddresses: {
+				type: [EmailAddress],
+				default: () => []
+			}
+		}
+	});
+	if(Meteor.isServer) {
+		classToExtend.extend({
+			meteorMethods: {
+				addEmailAddress (emailAddress) {
+					this.uniqueEmailAddresses.push(emailAddress);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+				updateEmailAddress (emailAddress, index) {
+					this.uniqueEmailAddresses[index] = emailAddress;
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+	 			removeEmailAddress (emailAddressIndex) {
+					// Removes a phone number from the client object via its index
+					this.uniqueEmailAddresses.splice(emailAddressIndex, 1);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				}
+			}
+		})
+	}
+}
+
+
+const extendWithPhoneNumbers = classToExtend => {
+	classToExtend.extend({
+		fields: {
+			uniquePhoneNumbers: {
+				type: [PhoneNumber],
+				default: () => []
+			}
+		}
+	});
+	if(Meteor.isServer) {
+		classToExtend.extend({
+			meteorMethods: {
+				addPhoneNumber (phoneNumber) {
+					this.uniquePhoneNumbers.push(phoneNumber);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+				updatePhoneNumber (phoneNumber, index) {
+					this.uniquePhoneNumbers[index] = phoneNumber;
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+	 			removePhoneNumber (phoneNumberIndex) {
+					// Removes a phone number from the client object via its index
+					this.uniquePhoneNumbers.splice(phoneNumberIndex, 1);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				}
+			}
+		})
+	}
+}
+
+export { Note, GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber, extendWithPhoneNumbers, extendWithEmailAddresses, extendWithPhysicalAddresses };

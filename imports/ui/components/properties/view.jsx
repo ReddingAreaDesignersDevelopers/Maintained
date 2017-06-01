@@ -139,6 +139,7 @@ class StyleColorComponent extends React.Component {
 						type="text"
 						ref={colorInput => this.colorInput = colorInput}
 						defaultValue={this.props.color.value}
+						onClick={event => event.target.select()}
 						onChange={event => {
 							this.setColor(event.target.value);
 						}} />
@@ -165,7 +166,7 @@ class StyleColorComponent extends React.Component {
 
 const PropertyStyleComponent = ({ property }) => (
 	<div className="style">
-		<h2>Colors</h2>
+		<h2><i className="mdi mdi-format-color-fill"></i>Colors</h2>
 		<ul className="list list__colors">
 			{property.style.colors.map(
 				(color, index) => <li key={color.value}>
@@ -189,7 +190,7 @@ const PropertyStyleComponent = ({ property }) => (
 				Meteor.call('/properties/save', property, error => handleError(error));
 			}}><i className="mdi mdi-plus"></i><i className="mdi mdi-format-color-fill"></i></button></li>
 		</ul>
-		<h2>Typefaces</h2>
+		<h2><i className="mdi mdi-format-font"></i>Typefaces</h2>
 		<ul className="list list__typefaces">
 			{property.style.typefaces.map(
 				(typeface, index) => <li key={typeface.name}>
@@ -254,7 +255,7 @@ class PropertyView extends React.Component {
 				<PropertyStyleComponent property={property} />
 
 				<div className="card card__credentials">
-					<h2>Credentials</h2>
+					<h2><i className="mdi mdi-key"></i>Credentials</h2>
 					<CredentialList
 						credentials={property.credentials().fetch()}
 						onAdd={credentialId => property.callMethod('addCredential', credentialId, error => handleError(error).then(() => {this.resubscribe(this)}))}
@@ -263,51 +264,51 @@ class PropertyView extends React.Component {
 				</div>
 
 				<div className="card card__physicalAddresses">
-					<h2>Physical Addresses</h2>
+					<h2><i className="mdi mdi-map-marker"></i>Physical Addresses</h2>
 					<PhysicalAddressList
 						physicalAddresses={property.uniquePhysicalAddresses}
 						onAdd={physicalAddress => property.callMethod('addPhysicalAddress', physicalAddress, handleError)}
 						onUpdate={(physicalAddress, index) => property.callMethod('updatePhysicalAddress', physicalAddress, index, handleError)}
 						onDelete={index => property.callMethod('removePhysicalAddress', index, handleError)}
 					/>
-					{property.client().physicalAddresses.length
+					{property.client().uniquePhysicalAddresses.length
 						? <div className="inherited">
 								<h3>Physical Addresses from <Link to={property.client().url}>{property.client().name}</Link></h3>
-								<PhysicalAddressList readonly physicalAddresses={property.client().physicalAddresses} />
+								<PhysicalAddressList readonly physicalAddresses={property.client().uniquePhysicalAddresses} />
 							</div>
 						: null
 					}
 				</div>
 
 				<div className="card card__emailAddresses">
-					<h2>Email Addresses</h2>
+					<h2><i className="mdi mdi-email"></i>Email Addresses</h2>
 					<EmailAddressList
 						emailAddresses={property.uniqueEmailAddresses}
 						onAdd={emailAddress => property.callMethod('addEmailAddress', emailAddress, handleError)}
 						onUpdate={(emailAddress, index) => property.callMethod('updateEmailAddress', emailAddress, index, handleError)}
 						onDelete={index => property.callMethod('removeEmailAddress', index, handleError)}
 					/>
-					{property.client().emailAddresses.length
+					{property.client().uniqueEmailAddresses.length
 						? <div className="inherited">
 								<h3>Email Address from <Link to={property.client().url}>{property.client().name}</Link></h3>
-								<EmailAddressList readonly emailAddresses={property.client().emailAddresses} />
+								<EmailAddressList readonly emailAddresses={property.client().uniqueEmailAddresses} />
 							</div>
 						: null
 					}
 				</div>
 
 				<div className="card card__phoneNumbers">
-					<h2>Phone Numbers</h2>
+					<h2><i className="mdi mdi-phone"></i>Phone Numbers</h2>
 					<PhoneNumberList
 						phoneNumbers={property.uniquePhoneNumbers}
 						onAdd={phoneNumber => property.callMethod('addPhoneNumber', phoneNumber, handleError)}
 						onUpdate={(phoneNumber, index) => property.callMethod('updatePhoneNumber', phoneNumber, index, handleError)}
 						onDelete={index => property.callMethod('removePhoneNumber', index, handleError)}
 					/>
-					{property.client().phoneNumbers.length
+					{property.client().uniquePhoneNumbers.length
 						? <div className="inherited">
 								<h3>Phone Numbers from <Link to={property.client().url}>{property.client().name}</Link></h3>
-								<PhoneNumberList readonly phoneNumbers={property.client().phoneNumbers} />
+								<PhoneNumberList readonly phoneNumbers={property.client().uniquePhoneNumbers} />
 							</div>
 						: null
 					}

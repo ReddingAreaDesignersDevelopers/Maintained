@@ -42,4 +42,48 @@ const Credential = GenericDashObject.inherit({
 	}
 });
 
-export { Credentials, CredentialType, Credential };
+const extendWithCredentials = classToExtend => {
+	classToExtend.extend({
+		fields: {
+			credentialIds: {
+				type: [String], // TODO this should be a Mongo.ObjectID but validation isn't working
+				default: () => []
+			},
+		}
+	});
+	if(Meteor.isServer) {
+		classToExtend.extend({
+			// The methods below are for adding, updating, and removing child classes
+			// These methods are invoked on the client so as to provide shorthand
+			// for updating this, secured, class
+			meteorMethods: {
+				addCredential (credentialId) {
+					this.credentialIds.push(credentialId);
+					this.save(error => {
+						if(error) throw new Meteor.Error(error);
+					});
+				},
+				removeCredential (credential) {
+					// A method for removing a credential associated with the client,
+					// and removing the link between the now non-existent credential
+
+					// If a string was passed, guess that it may have been the id
+					if(typeof credential === 'string') credential = Credential.findOne(credential);
+					if(!credential) throw new Meteor.Error('Credential not found');
+					const credentialId = credential._id;
+					credential.remove(error => {
+						if(error) throw new Meteor.Error(error);
+						// Now remove the credential ID from the client object
+						this.credentialIds.splice(this.credentialIds.indexOf(credentialId), 1);
+						this.save(error => {
+							if(error) throw new Meteor.Error(error);
+						});
+					});
+				},
+
+			}
+		});
+	}
+}
+
+export { Credentials, CredentialType, Credential, extendWithCredentials };

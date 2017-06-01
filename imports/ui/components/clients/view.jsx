@@ -2,6 +2,7 @@ import React from 'react';
 import { Client } from '/imports/api/clients';
 import { Link } from 'react-router-dom';
 import CredentialList from '/imports/ui/components/credentials/list';
+import PersonList from '/imports/ui/components/persons/list';
 import { PhysicalAddressList } from '/imports/ui/components/helpers/physicalAddress';
 import { EmailAddressList } from '/imports/ui/components/helpers/emailAddress';
 import { PhoneNumberList } from '/imports/ui/components/helpers/phoneNumber';
@@ -27,7 +28,7 @@ class ClientView extends React.Component {
 					/>
 				</h1>
 				<div className="card card__credentials">
-					<h2>Credentials</h2>
+					<h2><i className="mdi mdi-key"></i>Credentials</h2>
 					<CredentialList
 						credentials={client.credentials().fetch()}
 						onAdd={credentialId => client.callMethod('addCredential', credentialId, error => handleError(error).then(() => {this.resubscribe(this)}))}
@@ -35,30 +36,37 @@ class ClientView extends React.Component {
 					/>
 				</div>
 				<div className="card card__physicalAddresses">
-					<h2>Physical Addresses</h2>
+					<h2><i className="mdi mdi-map-marker"></i>Physical Addresses</h2>
 					<PhysicalAddressList
-						physicalAddresses={client.physicalAddresses}
+						physicalAddresses={client.uniquePhysicalAddresses}
 						onAdd={physicalAddress => client.callMethod('addPhysicalAddress', physicalAddress, handleError)}
 						onUpdate={(physicalAddress, index) => client.callMethod('updatePhysicalAddress', physicalAddress, index, handleError)}
 						onDelete={index => client.callMethod('removePhysicalAddress', index, handleError)}
 					/>
 				</div>
 				<div className="card card__emailAddresses">
-					<h2>Email Addresses</h2>
+					<h2><i className="mdi mdi-email"></i>Email Addresses</h2>
 					<EmailAddressList
-						emailAddresses={client.emailAddresses}
+						emailAddresses={client.uniqueEmailAddresses}
 						onAdd={emailAddress => client.callMethod('addEmailAddress', emailAddress, handleError)}
 						onUpdate={(emailAddress, index) => client.callMethod('updateEmailAddress', emailAddress, index, handleError)}
 						onDelete={index => client.callMethod('removeEmailAddress', index, handleError)}
 					/>
 				</div>
 				<div className="card card__phoneNumbers">
-					<h2>Phone Numbers</h2>
+					<h2><i className="mdi mdi-phone"></i>Phone Numbers</h2>
 					<PhoneNumberList
-						phoneNumbers={client.phoneNumbers}
+						phoneNumbers={client.uniquePhoneNumbers}
 						onAdd={phoneNumber => client.callMethod('addPhoneNumber', phoneNumber, handleError)}
 						onUpdate={(phoneNumber, index) => client.callMethod('updatePhoneNumber', phoneNumber, index, handleError)}
 						onDelete={index => client.callMethod('removePhoneNumber', index, handleError)}
+					/>
+				</div>
+				<div className="card card__persons">
+					<h2><i className="mdi mdi-account-multiple"></i>People at Client</h2>
+					<PersonList
+						persons={client.persons().fetch()}
+						roleAt={client}
 					/>
 				</div>
 				<input

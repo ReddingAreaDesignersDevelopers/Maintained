@@ -7,9 +7,11 @@ import { Route, Redirect } from 'react-router-dom';
 const Authenticated = ({ loggingIn, authenticated, component, ...rest}) => (
 	<Route {...rest} render={(props) => {
 		if(loggingIn) return <div>Logging In</div>;
-		return Meteor.user() ?
-		(React.createElement(component, { ...props, loggingIn, authenticated })) :
-		(<Redirect to="/login" />);
+		return Meteor.user()
+			? localStorage.dashMasterKey
+				? (React.createElement(component, { ...props, loggingIn, authenticated }))
+				: (<Redirect to="/firstTimeKey" />)
+			: (<Redirect to="/login" />);
 	}} />
 );
 

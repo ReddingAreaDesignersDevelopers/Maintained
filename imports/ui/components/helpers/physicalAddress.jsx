@@ -26,65 +26,66 @@ const PhysicalAddressNew = ({ onSubmit }) => (
 	</form>
 )
 
-const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate, readonly }) => (
-	<form
-		className="physicalAddress physicalAddress--view"
-		onSubmit={event => event.preventDefault()}
-		>
-		<input
-			required
-			readOnly={readonly ? 'readonly' : null}
-			type="text"
-			name="streetAddress"
-			defaultValue={physicalAddress.streetAddress}
-			placeholder="Address"
-			onChange={event => {
-				physicalAddress.streetAddress = event.target.value;
-				onUpdate(physicalAddress, index);
-			}}
-		/>
-		<input
-			required
-			readOnly={readonly ? 'readonly' : null}
-			type="text"
-			name="addressLocality"
-			defaultValue={physicalAddress.addressLocality}
-			placeholder="City"
-			onChange={event => {
-				physicalAddress.addressLocality = event.target.value;
-				onUpdate(physicalAddress, index);
-			}}
-		/>
-		<input
-			required
-			readOnly={readonly ? 'readonly' : null}
-			type="text"
-			name="addressRegion"
-			defaultValue={physicalAddress.addressRegion}
-			placeholder="State"
-			onChange={event => {
-				physicalAddress.addressRegion = event.target.value;
-				onUpdate(physicalAddress, index);
-			}}
-		/>
-		<input
-			required
-			readOnly={readonly ? 'readonly' : null}
-			type="text"
-			name="postalCode"
-			defaultValue={physicalAddress.postalCode}
-			placeholder="ZIP"
-			onChange={event => {
-				physicalAddress.postalCode = event.target.value;
-				onUpdate(physicalAddress, index);
-			}}
-		/>
-		{readonly
-			? null
-			: <button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
-		}
-	</form>
-)
+const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate, readonly }) =>
+	readonly
+		? <div className="physicalAddress physicalAddress--view">
+				<i className="mdi mdi-map-marker"></i>
+				<span name="streetAddress">{physicalAddress.streetAddress}</span>
+				<span name="addressLocality">{physicalAddress.addressLocality}</span>
+				<span name="addressRegion">{physicalAddress.addressRegion}</span>
+				<span name="postalCode">{physicalAddress.postalCode}</span>
+			</div>
+		: <form
+				className="physicalAddress physicalAddress--view"
+				onSubmit={event => event.preventDefault()}
+				>
+				<input
+					required
+					type="text"
+					name="streetAddress"
+					defaultValue={physicalAddress.streetAddress}
+					placeholder="Address"
+					onChange={event => {
+						physicalAddress.streetAddress = event.target.value;
+						onUpdate(physicalAddress, index);
+					}}
+				/>
+				<input
+					required
+					type="text"
+					name="addressLocality"
+					defaultValue={physicalAddress.addressLocality}
+					placeholder="City"
+					onChange={event => {
+						physicalAddress.addressLocality = event.target.value;
+						onUpdate(physicalAddress, index);
+					}}
+				/>
+				<input
+					required
+					type="text"
+					name="addressRegion"
+					defaultValue={physicalAddress.addressRegion}
+					placeholder="State"
+					onChange={event => {
+						physicalAddress.addressRegion = event.target.value;
+						onUpdate(physicalAddress, index);
+					}}
+				/>
+				<input
+					required
+					type="text"
+					name="postalCode"
+					defaultValue={physicalAddress.postalCode}
+					placeholder="ZIP"
+					onChange={event => {
+						physicalAddress.postalCode = event.target.value;
+						onUpdate(physicalAddress, index);
+					}}
+				/>
+				<button className="remover" onClick={event => onDelete(index)}><i className="mdi mdi-delete"></i></button>
+			</form>
+
 
 class PhysicalAddressList extends React.Component {
 	constructor (props) {
@@ -96,7 +97,7 @@ class PhysicalAddressList extends React.Component {
 
 	render () {
 		return (
-			<ul className="list list__physicalAddresses">
+			<ul className={`list list__physicalAddresses${this.props.readonly ? ' readonly' : ''}`}>
 				{this.props.physicalAddresses.map((physicalAddress, index) => <li key={index}>
 						<PhysicalAddressView
 							physicalAddress={physicalAddress}
