@@ -1,4 +1,4 @@
-import { Class } from 'meteor/jagi:astronomy';
+import { Class, Union } from 'meteor/jagi:astronomy';
 import { Mongo } from 'meteor/mongo';
 
 // A note has only a body and may be attached to any item
@@ -221,4 +221,29 @@ const extendWithPhoneNumbers = classToExtend => {
 	}
 }
 
-export { Note, GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber, extendWithPhoneNumbers, extendWithEmailAddresses, extendWithPhysicalAddresses };
+const DashSettings = new Mongo.Collection('dashSettings');
+
+const DashSetting = Class.create({
+	name: 'Dash Setting',
+	collection: DashSettings,
+	fields: {
+		name: String,
+		value: Union.create({name: 'Setting Type', types: [String, Number, Object, Array, Boolean]})
+	},
+});
+
+if(Meteor.isServer) {
+	DashSetting.extend({
+		meteorMethods: {
+			'/dashsettings/create' (dashSetting) {
+				dashSetting.save(error => {
+					if(error) throw new Meteor.Error(error);
+				});
+			}
+		}
+	});
+	Meteor.publish('/dashsettings', () => DashSetting.find());
+}
+
+
+export { Note, GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber, extendWithPhoneNumbers, extendWithEmailAddresses, extendWithPhysicalAddresses, DashSettings, DashSetting };

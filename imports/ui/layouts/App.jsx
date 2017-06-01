@@ -10,6 +10,7 @@ import Login from '/imports/ui/pages/Login';
 import Navigation from '/imports/ui/components/Navigation';
 import NotFound from '/imports/ui/pages/NotFound';
 import FirstTimeKey from '/imports/ui/pages/FirstTimeKey';
+import EnterMasterKey from '/imports/ui/pages/EnterMasterKey';
 
 import { ClientList, ClientNew, ClientView } from '/imports/ui/components/clients';
 import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/properties';
@@ -33,6 +34,7 @@ const App = appProps => (
 				<Authenticated exact name="ServiceView" path="/services/:serviceId" component={ServiceView} {...appProps} />
 				<Authenticated exact name="PersonView" path="/persons/:personId" component={PersonView} {...appProps} />
 				<Route exact path="/firstTimeKey" component={FirstTimeKey} />
+				<Route exact path="/enterMasterKey" component={EnterMasterKey} />
 				<Route path="/login" component={Login} {...appProps} />
 				<Route component={NotFound} />
 			</Switch>

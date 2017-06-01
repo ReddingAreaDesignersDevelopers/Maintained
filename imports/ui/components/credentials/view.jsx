@@ -71,8 +71,12 @@ const CredentialView = ({ credential, onDelete }) => (
 			required
 			type="password"
 			onMouseEnter={event => {
-				event.target.value = CryptoJS.AES.decrypt(credential.password, localStorage.dashMasterKey).toString(CryptoJS.enc.Utf8);
-				event.target.type = 'text';
+				const decrypted = CryptoJS.AES.decrypt(credential.password, localStorage.dashMasterKey).toString(CryptoJS.enc.Utf8);
+				console.log('dec', decrypted);
+				if(decrypted) {
+					event.target.value = decrypted;
+					event.target.type = 'text';
+				}
 			}}
 			onMouseLeave={event => {
 				event.target.value = credential.password;
@@ -83,8 +87,10 @@ const CredentialView = ({ credential, onDelete }) => (
 			defaultValue={credential.password}
 			onClick={event => event.target.select()}
 			onChange={event => {
-				credential.password = CryptoJS.AES.encrypt(event.target.value, localStorage.dashMasterKey).toString();
-				Meteor.call('/credentials/save', credential, handleError);
+				if(event.target.type === 'text') {
+					credential.password = CryptoJS.AES.encrypt(event.target.value, localStorage.dashMasterKey).toString();
+					Meteor.call('/credentials/save', credential, handleError);
+				}
 			}}
 		/>
 		<Select
