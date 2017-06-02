@@ -12,7 +12,7 @@ const CredentialNew = ({ onSubmit }) => (
 				const credential = new Credential({
 					url: $(event.target).find('[name=url]').val(),
 					user: $(event.target).find('[name=user]').val() || undefined,
-					password: CryptoJs.AES.encrypt($(event.target).find('[name=password]').val(), localStorage.dashMasterKey).toString()
+					password: CryptoJS.AES.encrypt($(event.target).find('[name=password]').val(), localStorage.dashMasterKey).toString()
 				});
 				Meteor.call('/credentials/create', credential, (error, credentialId) => {
 					handleError(error).then(() => {
