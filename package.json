@@ -16,6 +16,7 @@
     "mdi": "^1.9.33",
     "meteor-node-stubs": "~0.2.0",
     "prop-types": "^15.5.10",
+    "radium": "^0.19.1",
     "react": "^15.5.4",
     "react-color-picker": "^4.0.2",
     "react-dom": "^15.5.4",

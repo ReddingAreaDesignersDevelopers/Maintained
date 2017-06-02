@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Client from '/imports/api/Client';
 
@@ -13,6 +14,16 @@ import container from '/imports/ui/modules/container';
 import { handleError, Renamer } from '/imports/ui/helpers';
 
 class ClientView extends React.Component {
+
+	static propTypes = {
+		client: PropTypes.instanceOf(Client),
+		subscription: PropTypes.object
+	}
+
+	static defaultProps = {
+		client: new Client(),
+		subscription: {}
+	}
 
 	resubscribe (component) {
 		// A little song and dance because the container doesn't quite stay reactive

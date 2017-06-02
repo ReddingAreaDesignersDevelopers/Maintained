@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import Credential from '/imports/api/Credential';
 
 import CredentialView from '/imports/ui/components/Credential/View';
 import CredentialNew from '/imports/ui/components/Credential/New';
@@ -9,6 +12,18 @@ class CredentialList extends React.Component {
 		this.state = {
 			isAdding: false
 		};
+	}
+
+	static propTypes = {
+		credentials: PropTypes.arrayOf(PropTypes.instanceOf(Credential)),
+		onDelete: PropTypes.func,
+		onAdd: PropTypes.func,
+	}
+
+	static defaultProps = {
+		credentials: [],
+		onDelete: () => {},
+		onAdd: () => {}
 	}
 
 	render () {

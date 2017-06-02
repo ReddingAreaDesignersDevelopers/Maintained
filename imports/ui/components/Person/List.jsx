@@ -1,8 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Person from '/imports/api/Person';
+import Client from '/imports/api/Client';
+import Property from '/imports/api/Property';
 
 import PersonNew from '/imports/ui/components/Person/New';
 
@@ -30,6 +33,19 @@ const PersonListItem = ({ person, roleAt }) => (
 	</li>
 );
 
+PersonListItem.propTypes = {
+	person: PropTypes.instanceOf(Person),
+	roleAt: PropTypes.oneOfType([
+		PropTypes.instanceOf(Client),
+		PropTypes.instanceOf(Property)
+	])
+};
+
+PersonListItem.defaultProps = {
+	person: new Person(),
+	roleAt: new Client()
+};
+
 
 class PersonList extends React.Component {
 	constructor (props) {
@@ -37,6 +53,19 @@ class PersonList extends React.Component {
 		this.state = {
 			isAdding: false
 		};
+	}
+
+	static propTypes = {
+		persons: PropTypes.array,
+		roleAt: PropTypes.oneOfType([
+			PropTypes.instanceOf(Client),
+			PropTypes.instanceOf(Property)
+		])
+	}
+
+	static defaultProps = {
+		persons: [],
+		roleAt: new Client()
 	}
 
 	render () {

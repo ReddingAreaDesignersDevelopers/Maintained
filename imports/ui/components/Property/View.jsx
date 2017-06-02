@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import chroma from 'chroma-js';
 import ColorPicker from 'react-color-picker';
+import PropTypes from 'prop-types';
 
 import Property, { PropertyType, PropertyStatus, StyleColor, StyleTypeface, StyleFont } from '/imports/api/Property';
 import Service from '/imports/api/Service';
@@ -30,6 +31,14 @@ const PropertyTypeSelect = ({ property }) => (
 	/>
 );
 
+PropertyTypeSelect.propTypes = {
+	property: PropTypes.instanceOf(Property)
+};
+
+PropertyTypeSelect.defaultProps = {
+	property: new Property()
+};
+
 const PropertyStatusSelect = ({ property }) => (
 	<Select
 		name="status"
@@ -46,6 +55,14 @@ const PropertyStatusSelect = ({ property }) => (
 	/>
 );
 
+PropertyStatusSelect.propTypes = {
+	property: PropTypes.instanceOf(Property)
+};
+
+PropertyStatusSelect.defaultProps = {
+	property: new Property()
+};
+
 const PropertyServiceSelect = ({ property }) => (
 	<Select
 		name="service"
@@ -58,6 +75,14 @@ const PropertyServiceSelect = ({ property }) => (
 		}}
 	/>
 );
+
+PropertyServiceSelect.propTypes = {
+	property: PropTypes.instanceOf(Property)
+};
+
+PropertyServiceSelect.defaultProps = {
+	property: new Property()
+};
 
 const StyleFontComponent = ({ font, index, onChange, onRemove }) => (
 	<div className="font">
@@ -95,6 +120,20 @@ const StyleFontComponent = ({ font, index, onChange, onRemove }) => (
 	</div>
 );
 
+StyleFontComponent.propTypes = {
+	font: PropTypes.instanceOf(StyleFont),
+	index: PropTypes.number,
+	onChange: PropTypes.func,
+	onRemove: PropTypes.func
+};
+
+StyleFontComponent.defaultProps = {
+	font: new StyleFont(),
+	index: 0,
+	onChange: () => {},
+	onRemove: () => {}
+};
+
 const StyleTypefaceComponent = ({ typeface, index, onChange, onRemove, onCreateFont, onRemoveFont }) => (
 	<div className="typeface">
 		<h3><Renamer object={typeface} onSubmit={typeface => {
@@ -119,6 +158,24 @@ const StyleTypefaceComponent = ({ typeface, index, onChange, onRemove, onCreateF
 	</div>
 );
 
+StyleTypefaceComponent.propTypes = {
+	typeface: PropTypes.instanceOf(StyleTypeface),
+	index: PropTypes.number,
+	onChange: PropTypes.func,
+	onRemove: PropTypes.func,
+	onCreateFont: PropTypes.func,
+	onRemoveFont: PropTypes.func
+};
+
+StyleTypefaceComponent.defaultProps = {
+	typeface: new StyleTypeface(),
+	index: 0,
+	onChange: () => {},
+	onRemove: () => {},
+	onCreateFont: () => {},
+	onRemoveFont: () => {}
+};
+
 class StyleColorComponent extends React.Component {
 	constructor (props) {
 		super(props);
@@ -126,10 +183,24 @@ class StyleColorComponent extends React.Component {
 			isPicking: false
 		};
 	}
+
+	static propTypes = {
+		color: PropTypes.instanceOf(StyleColor),
+		onChange: PropTypes.func,
+		onRemove: PropTypes.func
+	}
+
+	static defaultProps = {
+		color: new StyleColor(),
+		onChange: () => {},
+		onRemove: () => {}
+	}
+
 	setColor (string) {
 		this.props.color.value = this.colorInput.value = string;
 		this.props.onChange(this.props.color, this.props.index);
 	}
+
 	render () {
 		return (
 			<figure className={`color ${chroma(this.props.color.value).luminance() > .5 ? 'color--light' : 'color--dark'}`} style={{backgroundColor: this.props.color.value}}>
@@ -226,8 +297,26 @@ const PropertyStyleComponent = ({ property }) => (
 	</div>
 );
 
+PropertyStyleComponent.propTypes = {
+	property: PropTypes.instanceOf(Property)
+};
+
+PropertyStyleComponent.defaultProps = {
+	property: new Property()
+};
+
 
 class PropertyView extends React.Component {
+
+	static propTypes = {
+		property: PropTypes.instanceOf(Property),
+		subscription: PropTypes.object
+	}
+
+	static defaultProps = {
+		property: new Property(),
+		subscription: {}
+	}
 
 	resubscribe (component) {
 		// A little song and dance because the container doesn't quite stay reactive

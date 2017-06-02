@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import Client from '/imports/api/Client';
+import Property from '/imports/api/Property';
 import Person, { PersonRole } from '/imports/api/Person';
 
 import { handleError } from '/imports/ui/helpers';
@@ -29,5 +32,18 @@ const PersonNew = ({ history, roleAt, onSubmit }) => (
 		<input type="submit" value="Save" />
 	</form>
 );
+
+PersonNew.propTypes = {
+	roleAt: PropTypes.oneOfType([
+		PropTypes.instanceOf(Client),
+		PropTypes.instanceOf(Property)
+	]),
+	onSubmit: PropTypes.func
+};
+
+PersonNew.defaultProps = {
+	roleAt: new Client(),
+	onSubmit: event => event.preventDefault()
+};
 
 export default PersonNew;

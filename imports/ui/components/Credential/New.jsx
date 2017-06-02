@@ -1,5 +1,6 @@
 import React from 'react';
 import CryptoJS from 'crypto-js';
+import PropTypes from 'prop-types';
 
 import Credential from '/imports/api/Credential';
 
@@ -30,5 +31,13 @@ const CredentialNew = ({ onSubmit }) => (
 		<input type="submit" value="Add credential" />
 	</form>
 );
+
+CredentialNew.propTypes = {
+	onSubmit: PropTypes.func
+};
+
+CredentialNew.defaultProps = {
+	onSubmit: event => event.preventDefault()
+};
 
 export default CredentialNew;

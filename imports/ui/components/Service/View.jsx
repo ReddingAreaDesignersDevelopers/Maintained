@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Service from '/imports/api/Service';
 
@@ -9,6 +10,15 @@ import container from '/imports/ui/modules/container';
 import { handleError, Renamer } from '/imports/ui/helpers';
 
 class ServiceView extends React.Component {
+
+	static propTypes = {
+		service: PropTypes.instanceOf(Service)
+	}
+
+	static defaultProps = {
+		service: new Service()
+	}
+
 	render () {
 		const service = this.props.service;
 		return (

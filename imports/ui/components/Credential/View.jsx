@@ -2,8 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Bert } from 'meteor/themeteorchef:bert';
 import CryptoJS from 'crypto-js';
+import PropTypes from 'prop-types';
 
-import { CredentialType } from '/imports/api/Credential';
+import Credential, { CredentialType } from '/imports/api/Credential';
 
 import { handleError, Select } from '/imports/ui/helpers';
 import PlaintextSVG from '/imports/ui/svg/plaintext.svg.jsx';
@@ -109,5 +110,15 @@ const CredentialView = ({ credential, onDelete }) => (
 		<button className="remover" onClick={event => onDelete(credential._id)}><i className="mdi mdi-delete"></i></button>
 	</form>
 );
+
+CredentialView.propTypes = {
+	credential: PropTypes.instanceOf(Credential),
+	onDelete: PropTypes.func
+};
+
+CredentialView.defaultProps = {
+	credential: new Credential(),
+	onDelete: () => {}
+};
 
 export default CredentialView;

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Person, { PersonRole } from '/imports/api/Person';
 
@@ -12,6 +13,15 @@ import { handleError } from '/imports/ui/helpers';
 import container from '/imports/ui/modules/container';
 
 class PersonView extends React.Component {
+
+	static propTypes = {
+		person: PropTypes.instanceOf(Person)
+	}
+
+	static defaultProps = {
+		person: new Person()
+	}
+
 	render () {
 		const person = this.props.person;
 		return (
