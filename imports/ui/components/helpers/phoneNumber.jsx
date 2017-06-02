@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { PhoneNumber } from '/imports/api/helpers';
 
 const PhoneNumberNew = ({ onSubmit }) => (
 	<form
+		className="phone-number new"
 		onSubmit={event => {
 			event.preventDefault();
 			const phoneNumber = new PhoneNumber({
@@ -21,12 +23,12 @@ const PhoneNumberNew = ({ onSubmit }) => (
 
 const PhoneNumberView = ({ phoneNumber, index, onDelete, onUpdate, readonly }) =>
 	readonly
-		? <div className="phoneNumber phoneNumber--view">
+		? <div className="phone-number view">
 			<i className="mdi mdi-phone"></i>
 			<span name="tel"><a href={`tel:${phoneNumber.formatted}`}>{phoneNumber.tel}</a></span>
 		</div>
 		: <form
-			className="phoneNumber phoneNumber--view"
+			className="phone-number view"
 			onSubmit={event => event.preventDefault()}
 			>
 			<input
@@ -55,7 +57,7 @@ class PhoneNumberList extends React.Component {
 
 	render() {
 		return (
-			<ul className={`list list__phoneNumbers${this.props.readonly ? ' readonly' : ''}`}>
+			<ul className={`phone-number ${this.props.readonly ? 'readonly' : ''}`}>
 				{this.props.phoneNumbers.map(
 					(phoneNumber, index) => <li key={index}>
 						<PhoneNumberView

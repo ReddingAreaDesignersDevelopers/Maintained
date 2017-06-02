@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import { DashSetting } from '/imports/api/helpers.js';
-import { handleError } from '/imports/ui/helpers.js';
 import React from 'react';
 import CryptoJS from 'crypto-js';
 import { Session } from 'meteor/session';
+
+import DashSetting from '/imports/api/helpers/DashSetting';
+
+import { handleError } from '/imports/ui/helpers.js';
 
 class FirstTimeKey extends React.Component {
 	render () {

@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { PhysicalAddress } from '/imports/api/helpers';
 
 const PhysicalAddressNew = ({ onSubmit }) => (
 	<form
-		id="phsyicalAddressNew"
+		className="physical-address new"
 		onSubmit={event => {
 			event.preventDefault();
 			const physicalAddress = new PhysicalAddress({
@@ -28,7 +29,7 @@ const PhysicalAddressNew = ({ onSubmit }) => (
 
 const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate, readonly }) =>
 	readonly
-		? <div className="physicalAddress physicalAddress--view">
+		? <div className="physical-address view">
 				<i className="mdi mdi-map-marker"></i>
 				<span name="streetAddress">{physicalAddress.streetAddress}</span>
 				<span name="addressLocality">{physicalAddress.addressLocality}</span>
@@ -36,7 +37,7 @@ const PhysicalAddressView = ({ physicalAddress, index, onDelete, onUpdate, reado
 				<span name="postalCode">{physicalAddress.postalCode}</span>
 			</div>
 		: <form
-				className="physicalAddress physicalAddress--view"
+				className="physical-address view"
 				onSubmit={event => event.preventDefault()}
 				>
 				<input
@@ -97,7 +98,7 @@ class PhysicalAddressList extends React.Component {
 
 	render () {
 		return (
-			<ul className={`list list__physicalAddresses${this.props.readonly ? ' readonly' : ''}`}>
+			<ul className={`physical-address ${this.props.readonly ? 'readonly' : ''}`}>
 				{this.props.physicalAddresses.map((physicalAddress, index) => <li key={index}>
 						<PhysicalAddressView
 							physicalAddress={physicalAddress}

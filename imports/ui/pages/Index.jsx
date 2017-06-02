@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+
 import container from '/imports/ui/modules/container';
 
 class Index extends React.Component {

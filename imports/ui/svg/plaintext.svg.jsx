@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PlaintextSVG = ({ onClick }) => (
-	<svg className="plaintextSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 161.8 100" onClick={event => onClick(event)}>
+	<svg className="icon-plaintext" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 161.8 100" onClick={event => onClick(event)}>
 	  <g>
 	    <rect x="14.28" y="14.19" width="42.95" height="14.29"/>
 	    <rect x="69.23" y="14.19" width="78.28" height="14.29"/>

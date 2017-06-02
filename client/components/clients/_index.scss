@@ -1,3 +1,5 @@
-.client.client--view {
-	@include objectView;
+.client {
+  &.view {
+    @include object-view;
+  }
 }

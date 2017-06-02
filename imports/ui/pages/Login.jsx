@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+
 import handleLogin from '/imports/ui/modules/login';
 import container from '/imports/ui/modules/container';
 

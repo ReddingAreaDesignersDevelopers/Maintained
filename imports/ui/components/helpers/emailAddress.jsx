@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { EmailAddress } from '/imports/api/helpers';
 
 const EmailAddressNew = ({ onSubmit }) => (
 	<form
+		className="email-address new"
 		onSubmit={event => {
 			event.preventDefault();
 			const emailAddress = new EmailAddress({
@@ -26,12 +28,12 @@ const EmailAddressNew = ({ onSubmit }) => (
 
 const EmailAddressView = ({ emailAddress, index, onDelete, onUpdate, readonly }) =>
 	readonly
-	? <div className="emailAddress emailAddress--view">
+	? <div className="email-address view">
 		<i className="mdi mdi-email"></i>
 		<span name="address"><a href={`mailto:${emailAddress.address}`}>{emailAddress.address}</a></span>
 	</div>
 	: <form
-			className="emailAddress emailAddress--view"
+			className="email-address view"
 			onSubmit={event => event.preventDefault()}
 			>
 			<input
@@ -59,7 +61,7 @@ class EmailAddressList extends React.Component {
 
 	render() {
 		return (
-			<ul className={`list list__emailAddresses${this.props.readonly ? ' readonly' : ''}`}>
+			<ul className={`email-address ${this.props.readonly ? 'readonly' : ''}`}>
 				{this.props.emailAddresses.map(
 					(emailAddress, index) => <li key={index}>
 						<EmailAddressView

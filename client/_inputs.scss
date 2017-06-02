@@ -3,86 +3,90 @@ input[type=email],
 input[type=url],
 input[type=tel],
 input[type=password] {
-	border-color: $md-grey-700;
-	border-style: solid;
-	border-width: 0;
-	margin: 0;
-	padding: .25rem .5rem;
-	font-size: 1rem;
-	line-height: 1.5;
-	font-weight: 100;
-	height: 2rem;
+  border-color: $md-grey-700;
+  border-style: solid;
+  border-width: 0;
+  font-size: 1rem;
+  font-weight: 100;
+  height: 2rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: .25rem .5rem;
 
-	&:active,
-	&:focus {
-		cursor: text;
-		border-bottom-width: 1px;
-	}
+  &:active,
+  &:focus {
+    border-bottom-width: 1px;
+    cursor: text;
+  }
 
-	&:hover {
-		cursor: copy;
-		&:active,
-		&:focus {
-			cursor: text;
-		}
-	}
+  &:hover {
+    cursor: copy;
+
+    &:active,
+    &:focus {
+      cursor: text;
+    }
+  }
 }
 
 select {
-	height: 2rem;
-	font-size: 1rem;
-	padding: .5rem;
+  font-size: 1rem;
+  height: 2rem;
+  padding: .5rem;
 }
 
 
-.renamer,
-.remover,
-.creater {
+button.renamer,
+button.remover,
+button.creater {
   appearance: none;
-  border: none;
   background: none;
-	font-size: 1rem;
+  border: 0;
+  font-size: 1rem;
 }
 
-.remover {
+button.remover {
   background-color: $md-red-700;
   color: $md-white;
-	width: 100%;
+  width: 100%;
 }
 
-.creater {
+button.creater {
   background-color: $md-green-700;
   color: $md-white;
-	width: 100%;
-	margin-top: 1rem;
+  margin-top: 1rem;
+  width: 100%;
 }
 
 
 // Select wrapper styles
 .Select-control {
-	border-color: $md-grey-700;
-	border-style: solid;
-	border-width: 0;
-	height: 2rem;
+  border-color: $md-grey-700;
+  border-style: solid;
+  border-width: 0;
+  height: 2rem;
 }
 
 .Select--multi {
-	.Select-value {
-		background-color: $md-blue-100;
-		color: $md-blue-700;
-		white-space: nowrap;
-		margin: 0 0.25rem 0 0;
-		border-radius: 0;
-		font-size: 1rem;
-		line-height: 2;
-		height: 2em;
-		border: none;
-	}
-	.Select-value-icon {
-		padding: 0 .25rem;
-		border-right: 1px solid $md-white;
-	}
-	.Select-value-label {
-		padding: 0 .25rem;
-	}
+
+  .Select-value {
+    background-color: $md-blue-100;
+    border: 0;
+    border-radius: 0;
+    color: $md-blue-700;
+    font-size: 1rem;
+    height: 2em;
+    line-height: 2;
+    margin: 0 .25rem 0 0;
+    white-space: nowrap;
+  }
+
+  .Select-value-icon {
+    border-right: 1px solid $md-white;
+    padding: 0 .25rem;
+  }
+
+  .Select-value-label {
+    padding: 0 .25rem;
+  }
 }

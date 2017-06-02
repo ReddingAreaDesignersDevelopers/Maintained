@@ -16,7 +16,6 @@ const Navigation = withRouter(({ hasUser, history }) => hasUser ? (
 					{value: '/login', label: 'Sign Out'}
 				]}
 				onChange={selectedOption => {
-					console.log(history);
 					if(selectedOption.value === '/login') {
 						Meteor.logout(error => {
 							handleError(error).then(() => {

@@ -1,5 +1,5 @@
 import '/imports/startup/server/api.js';
-import { Clients } from '/imports/api/clients';
+import { Clients } from '/imports/api/Client';
 
 Meteor.startup(function () {
 	// Some helpers to allow searching.

@@ -12,10 +12,10 @@ import NotFound from '/imports/ui/pages/NotFound';
 import FirstTimeKey from '/imports/ui/pages/FirstTimeKey';
 import EnterMasterKey from '/imports/ui/pages/EnterMasterKey';
 
-import { ClientList, ClientNew, ClientView } from '/imports/ui/components/clients';
-import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/properties';
-import { ServiceList, ServiceNew, ServiceView } from '/imports/ui/components/services';
-import { PersonView } from '/imports/ui/components/persons';
+import { ClientList, ClientNew, ClientView } from '/imports/ui/components/Client';
+import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/Property';
+import { ServiceList, ServiceNew, ServiceView } from '/imports/ui/components/Service';
+import { PersonView } from '/imports/ui/components/Person';
 
 const App = appProps => (
 	<Router>

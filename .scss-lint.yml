@@ -1,0 +1,7 @@
+linters:
+  SelectorFormat:
+    convention: hyphenated_BEM
+  NestingDepth:
+    max_depth: 5
+  QualifyingElement:
+    enabled: false
