@@ -1,15 +1,28 @@
 import { Meteor } from 'meteor/meteor';
 import { Class, Enum } from 'meteor/jagi:astronomy';
 
-import GenericDashObject from '/imports/api/GenericDashObject';
+export const UserCapability = Enum.create({
+	name: 'User Capability',
+	identifiers: {
+		MANAGE_USERS: 0
+	}
+});
 
 // A user is someone who can log into the dash
-const User = GenericDashObject.inherit({
+const User = Class.create({
 	name: 'User',
 	collection: Meteor.users,
 	fields: {
 		name: {
-			type: String // Users must have a name
+			type: String, // Users must have a name
+			transient: true,
+			resolve (doc) {
+				return doc.profile.name
+			}
+		},
+		capabilities: {
+			type: [UserCapability],
+			default: () => []
 		},
 		services: Object, // Used by Meteor
 		profile: Object, // Used by Meteor. Created on signup

@@ -3,6 +3,7 @@ import { Class, Enum } from 'meteor/jagi:astronomy';
 
 import GenericDashObject from '/imports/api/GenericDashObject';
 import Client from '/imports/api/Client';
+import Person from '/imports/api/Person';
 import Credential from '/imports/api/Credential';
 
 import { PhysicalAddress, PhoneNumber, EmailAddress, extendWithPhoneNumbers, extendWithEmailAddresses, extendWithPhysicalAddresses, extendWithCredentials } from '/imports/api/helpers';
@@ -199,7 +200,7 @@ const Property = GenericDashObject.inherit({
 		},
 		persons () {
 			// Returns a cursor of persons associated with the property
-			return Person.find({'roles.$.objectId': this._id});
+			return Person.find({'roles.objectId': this._id});
 		},
 		credentials () {
 			// Returns a cursor of credentials attached to the property

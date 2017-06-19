@@ -17,7 +17,7 @@ import { PhoneNumberList } from '/imports/ui/components/helpers/phoneNumber';
 const PersonListItem = ({ person, roleAt }) => (
 	<li>
 		<Link to={person.url}>{person.name}</Link>
-		<span className="person__role">{roleAt ? `, ${person.roleAt(roleAt).name}` : null}</span>
+		<span className="person__role">{roleAt && person.roleAt(roleAt) ? `, ${person.roleAt(roleAt).name}` : null}</span>
 		<PhysicalAddressList
 			readonly
 			physicalAddresses={person.uniquePhysicalAddresses}
@@ -64,7 +64,7 @@ class PersonList extends React.Component {
 	}
 
 	static defaultProps = {
-		persons: [],
+		persons: Person.find().fetch(),
 		roleAt: new Client()
 	}
 
@@ -75,8 +75,8 @@ class PersonList extends React.Component {
 				<li>{this.state.isAdding
 					? <PersonNew
 						roleAt={this.props.roleAt}
-						onSubmit={person => {
-							this.state({isAdding: false});
+						onSubmit={personId => {
+							this.setState({isAdding: false});
 						}}
 						/>
 					: <button onClick={event => this.setState({isAdding: true})} className="creater"><i className="mdi mdi-plus"></i><i className="mdi mdi-clipboard-account"></i></button>
@@ -93,7 +93,7 @@ class PersonList extends React.Component {
 export default container((props, onData) => {
 	const subscription = Meteor.subscribe('/persons/list');
 	if(subscription.ready()) {
-		const persons = Person.find().fetch();
-		onData(null, {persons});
+		// const persons = Person.find().fetch();
+		onData(null, {});
 	}
 }, PersonList);

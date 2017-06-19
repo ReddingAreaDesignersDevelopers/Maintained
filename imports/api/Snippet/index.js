@@ -1,7 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { Class, Enum } from 'meteor/jagi:astronomy';
 
-import { GenericDashObject, PhysicalAddress, EmailAddress, PhoneNumber } from '/imports/api/helpers.js';
+import GenericDashObject from '/imports/api/GenericDashObject';
+import { PhysicalAddress, EmailAddress, PhoneNumber } from '/imports/api/helpers';
 
 export const Snippets = new Mongo.Collection('snippets');
 

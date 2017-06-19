@@ -36,7 +36,7 @@ const Client = GenericDashObject.inherit({
 	helpers: {
 		persons () {
 			// Returns a cursor of persons associated with the client
-			return Person.find({'roles.$.objectId': this._id});
+			return Person.find({'roles.objectId': this._id});
 		},
 		credentials () {
 			// Returns a cursor of credentials attached to the client

@@ -2,6 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { Class, Enum } from 'meteor/jagi:astronomy';
 
 import GenericDashObject from '/imports/api/GenericDashObject';
+import collectionByName from '/imports/api/helpers/collectionByName';
 import Client from '/imports/api/Client';
 import Property from '/imports/api/Property';
 
@@ -17,6 +18,11 @@ export const PersonRole = GenericDashObject.inherit({
 		name: String, // The name of their role
 		objectType: String, // The type of object at which they have a role (property or client)
 		objectId: String // The ID of the object above
+	},
+	helpers: {
+		object () {
+			return collectionByName(this.objectType).findOne(this.objectId);
+		}
 	}
 });
 

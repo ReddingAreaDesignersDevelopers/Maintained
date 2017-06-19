@@ -85,3 +85,25 @@ ul {
 .bert-alert.success {
   background: $md-green-700;
 }
+
+.card {
+  padding: 1rem;
+  background-color: $md-white;
+  color: $md-dark-text-primary;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+  @include card-shadow-1;
+
+  h2 {
+    margin-top: 0;
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 1rem;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+  }
+}

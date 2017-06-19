@@ -13,7 +13,7 @@ class PropertyNew extends React.Component {
 		this.state = {
 			clientMatches: [],
 			clientSelected: false
-		}
+		};
 	}
 
 	render () {

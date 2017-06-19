@@ -33,6 +33,7 @@ class ClientView extends React.Component {
 
 	render () {
 		const client = this.props.client;
+		console.log(client.persons().fetch());
 		return (
 			<div className="client view" id={`client-${client._id}`}>
 				<h1>
@@ -77,7 +78,7 @@ class ClientView extends React.Component {
 					/>
 				</div>
 				<div className="person card">
-					<h2><i className="mdi mdi-account-multiple"></i>People at Client</h2>
+					<h2><i className="mdi mdi-account-multiple"></i>People</h2>
 					<PersonList
 						persons={client.persons().fetch()}
 						roleAt={client}
@@ -97,7 +98,7 @@ class ClientView extends React.Component {
 					<h2>Properties</h2>
 					<ul className="client-property">{client.properties().map(property => <li key={property._id}><Link to={property.url}>{property.name}</Link></li>)}</ul>
 				</div>
-				<button onClick={event => {
+				<button className="remover" onClick={event => {
 					Meteor.call('/clients/delete', client, error => {
 						handleError(error).then(() => {
 							this.props.history.push('/clients');

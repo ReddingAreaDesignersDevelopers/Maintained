@@ -9,8 +9,22 @@ import { PhysicalAddressList } from '/imports/ui/components/helpers/physicalAddr
 import { EmailAddressList } from '/imports/ui/components/helpers/emailAddress';
 import { PhoneNumberList } from '/imports/ui/components/helpers/phoneNumber';
 
-import { handleError } from '/imports/ui/helpers';
+import { handleError, Renamer } from '/imports/ui/helpers';
 import container from '/imports/ui/modules/container';
+
+const PersonRoleComponent = ({ role, onChange, onDelete }) => (
+	<form className="role" onSubmit={event => event.preventDefault()}>
+		<input
+			defaultValue={role.name}
+			onChange={event => {
+				role.name = event.target.value;
+				onChange(role);
+			}}
+		/>
+			at <Link to={role.object().url}>{role.object().name}</Link>
+		<button className="remover" onClick={event => onDelete(role)}><i className="mdi mdi-delete"></i></button>
+	</form>
+)
 
 class PersonView extends React.Component {
 
@@ -26,17 +40,28 @@ class PersonView extends React.Component {
 		const person = this.props.person;
 		return (
 			<div className="person view">
-				<h1>{person.name}</h1>
+				<h1>
+					<Renamer
+						object={person}
+						onSubmit={person => Meteor.call('/persons/save', person, error => handleError(error))}
+					/>
+				</h1>
 				<div className="client card">
-					<h2><i className="mdi mdi-account"></i>Clients</h2>
+					<h2><i className="mdi mdi-account"></i>Roles</h2>
 					<ul className="client">
-						{person.clients().fetch().map(client => <li key={client._id}><Link to={client.url}>{client.name}</Link></li>)}
-					</ul>
-				</div>
-				<div className="property card">
-					<h2><i className="mdi mdi-clipboard-account"></i>Properties</h2>
-					<ul className="property">
-						{person.properties().fetch().map(property => <li key={property._id}><Link to={property.url}>{property.name}</Link></li>)}
+						{person.roles.map(
+							(role, index) => <li key={index}>
+								<PersonRoleComponent
+									role={role}
+									onChange={role => {
+										person.roles[index] = role;
+										Meteor.call('/persons/save', person, error => handleError(error));
+									}}
+									onDelete={role => {
+										person.roles.splice(index, 1);
+										Meteor.call('/persons/save', person, error => handleError(error));
+									}}
+								/></li>)}
 					</ul>
 				</div>
 				<div className="physical-addresses card">

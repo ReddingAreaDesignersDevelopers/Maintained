@@ -12,6 +12,7 @@ import NotFound from '/imports/ui/pages/NotFound';
 import FirstTimeKey from '/imports/ui/pages/FirstTimeKey';
 import EnterMasterKey from '/imports/ui/pages/EnterMasterKey';
 
+import { UserList, UserNew, UserView } from '/imports/ui/components/User';
 import { ClientList, ClientNew, ClientView } from '/imports/ui/components/Client';
 import { PropertyList, PropertyNew, PropertyView } from '/imports/ui/components/Property';
 import { ServiceList, ServiceNew, ServiceView } from '/imports/ui/components/Service';
@@ -23,6 +24,8 @@ const App = appProps => (
 			<Navigation {...appProps} />
 			<Switch>
 				<Authenticated exact name="index" path="/" component={Index} />
+				<Authenticated exact name="UserList" path="/users" component={UserList} {...appProps} />
+				<Authenticated exact name="UserView" path="/users/:userId" component={UserView} {...appProps} />
 				<Authenticated exact name="PropertyList" path="/properties" component={PropertyList} {...appProps} />
 				<Authenticated exact name="PropertyNew" path="/properties/new" component={PropertyNew} {...appProps} />
 				<Authenticated exact name="PropertyView" path="/properties/:propertyId" component={PropertyView} {...appProps} />

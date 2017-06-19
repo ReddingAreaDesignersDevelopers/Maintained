@@ -1,4 +1,6 @@
 // Loads all the server utilities relating to the API
+import '/imports/api/User/methods.js';
+import '/imports/api/User/server/publications.js';
 import '/imports/api/Client/methods.js';
 import '/imports/api/Client/server/publications.js';
 import '/imports/api/Credential/methods.js';

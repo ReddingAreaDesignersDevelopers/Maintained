@@ -8,6 +8,7 @@ import Property, { PropertyType, PropertyStatus, StyleColor, StyleTypeface, Styl
 import Service from '/imports/api/Service';
 
 import CredentialList from '/imports/ui/components/Credential/List';
+import PersonList from '/imports/ui/components/Person/List';
 import { PhysicalAddressList } from '/imports/ui/components/helpers/physicalAddress';
 import { EmailAddressList } from '/imports/ui/components/helpers/emailAddress';
 import { PhoneNumberList } from '/imports/ui/components/helpers/phoneNumber';
@@ -402,6 +403,14 @@ class PropertyView extends React.Component {
 							</div>
 						: null
 					}
+				</div>
+
+				<div className="person card">
+					<h2><i className="mdi mdi-account-multiple"></i>People</h2>
+					<PersonList
+						persons={property.persons().fetch()}
+						roleAt={property}
+					/>
 				</div>
 			</div>
 		);
