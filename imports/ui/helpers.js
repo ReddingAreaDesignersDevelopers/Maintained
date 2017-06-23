@@ -1,26 +1,32 @@
 // Helpers for the user interface
-import React from 'react';
-import Select from 'react-select';
-import { Bert } from 'meteor/themeteorchef:bert';
 
+// Import some global utilities
+import React from 'react'; // React core
+import Select from 'react-select'; // A nicely-styled select, directly exports
+import { Bert } from 'meteor/themeteorchef:bert'; // A notifier
+
+// If passed an error, alerts the user. Returns an object that
+// can be used to execute subsequent operations
 const handleError = error => {
-	// If passed an error, alerts the user. Returns an object that
-	// can be used to execute subsequent operations
 
+	// If there's an error, log it and notify user
 	if(error) {
 		console.error(error);
-		if(error.error) error = error.error;
+		if(error.error) error = error.error; // In case it's nested, unnest it
 		Bert.alert(error.reason, 'warning');
 	}
 
 	return {
 		then (callback) {
+			// If there hasn't been an error, execute the callback
 			if(!error) callback();
 		}
 	}
 
 };
 
+// For viewing typeahead results. Exports a list with results,
+// executes onSelect when one is clicked
 const TypeaheadResults = ({ results, onSelect }) => (
 	<ul className="list list--typeahead">
 		{results.map(result => <li key={result._id} onClick={event => {
@@ -29,15 +35,20 @@ const TypeaheadResults = ({ results, onSelect }) => (
 	</ul>
 );
 
+// A utility component for renaming a passed object
+// Requires that the field for the name is called `name`
 class Renamer extends React.Component {
 	constructor (props) {
 		super(props);
+		// This component has state - whether or not it's renaming the object
 		this.state = {
 			isRenaming: false
 		}
 	}
 
 	render () {
+		// Returns the name and and edit icon if not renaming,
+		// returns the form to rename if it is
 		return this.state.isRenaming
 		? <form
 				onSubmit={event => {
@@ -61,4 +72,14 @@ class Renamer extends React.Component {
 	}
 }
 
-export { handleError, TypeaheadResults, Renamer, Select };
+// Utility component for consistenly showing an icon for an
+// object type
+const DashIcon = ({ of }) => Object({
+	credential: <i className="mdi mdi-key"></i>,
+	physicalAddress: <i className="mdi mdi-map-marker"></i>,
+	emailAddress: <i className="mdi mdi-email"></i>,
+	phoneNumber: <i className="mdi mdi-phone"></i>,
+	person: <i className="mdi mdi-account-multiple"></i>
+})[of];
+
+export { handleError, TypeaheadResults, Renamer, Select, DashIcon };

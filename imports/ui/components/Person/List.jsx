@@ -85,12 +85,11 @@ class PersonList extends React.Component {
 		);
 	}
 }
-//
-// const PersonList = ({ persons, roleAt, onAdd, onUpdate, onDelete }) => (
-//
-// );
 
+// This container wraps the component in a function that first makes sure
+// that the data which it needs is available before it is rendered
 export default container((props, onData) => {
+	// TODO allow the component to accept an arbitrary list of persons, not just all
 	const subscription = Meteor.subscribe('/persons/list');
 	if(subscription.ready()) {
 		// const persons = Person.find().fetch();
